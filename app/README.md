@@ -20,10 +20,3 @@ Copy `.env.example` to `.env` and update it with your [Twilio](https://twilio.co
 
 * `npm install`
 * `npm start`
-
-### In Development mode
-
-* Run(https://node-send.glitch.me/) on port 3000
-* Visit your url!
-### Live Site
-https://greennodejs-send.glitch.me
