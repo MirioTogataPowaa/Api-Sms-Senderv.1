@@ -2,11 +2,7 @@
 
 This application is meant to be used with the use of API for sending sms using a Twilio Account
 
-## Use this on Glitch
-
-[Remix on Glitch]
-
-⚠️ cloning erroneously sets up a default Glitch application. If this happens to you, in the Glitch app that is created choose **Tools** >> **Extras** >> **Git Import and Export** >> **Import from GitHub** when prompted enter  `-to-apis-node`
+## Version1
 
 ## Helpful Tips
 
