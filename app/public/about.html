@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Lucida Sans", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .topnav a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .topnav a.active {
+      background-color: #04AA6D;
+      color: white;
+    }
+
+    .header {
+      background-color: #9933cc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -15px;
+    }
+
+    .col {
+      flex: 1;
+      padding: 15px;
+    }
+
+    .content {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .about-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .footer {
+      background-color: #0099cc;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      background: #f4f4f4;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    form input, form textarea, form button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    form button {
+      background-color: #04AA6D;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="topnav">
+    <a href="index.html">Home</a>
+    <a href="recipient.html">Recipient</a>
+    <a href="contact.html">Contact</a>
+    <a class="active" href="about.html">About</a>
+  </div>
+
+  <div class="header">
+    <h1>About Us</h1>
+  </div>
+
+  <div class="content">
+    <div class="row">
+      <div class="col">
+        <p>Welcome to the SMS API app! This application is designed to help users send and manage SMS messages effortlessly. Our goal is to simplify communication by providing a clean and easy-to-use interface powered by Twilio's messaging service.</p>
+        <p>Discover the features of this platform and how it can benefit your communication needs. Feel free to reach out through our contact page for more information.</p>
+      </div>
+      <div class="col">
+        <img src="https://i.redd.it/dibqwszhvkwa1.gif" alt="About Us" class="about-image">
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>&copy; 2025 SMS API GREEN APP. All Rights Reserved.</p>
+  </div>
+</body>
+</html>

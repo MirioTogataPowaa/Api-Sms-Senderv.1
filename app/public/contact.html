@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Lucida Sans", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3f4f6;
+    }
+
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .topnav a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .topnav a.active {
+      background-color: #04AA6D;
+      color: white;
+    }
+
+    .header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .content {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    input[type="submit"] {
+      background-color: #04AA6D;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      align-self: center;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    .footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
+    }
+
+    .footer a {
+      color: #04AA6D;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .comments-section {
+      margin-top: 30px;
+    }
+
+    .comment {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .comment h3 {
+      margin: 0;
+      color: #333;
+    }
+
+    .comment p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .comment .actions {
+      margin-top: 10px;
+    }
+
+    .comment .actions button {
+      background-color: #04AA6D;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .comment .actions button:hover {
+      background-color: #45a049;
+    }
+
+    .comment .actions .delete {
+      background-color: #e74c3c;
+    }
+
+    .comment .actions .delete:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="header">
+      <h1>Welcome to Our Website</h1>
+      <p>Your go-to platform for amazing experiences.</p>
+    </div>
+
+    <div class="topnav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+
+    <div class="content">
+      <h2>Contact Us</h2>
+      <p>If you have any questions, feel free to reach out! We're here to help.</p>
+
+      <form @submit.prevent="submitContact">
+        <label for="name">Name:</label>
+        <input type="text" id="name" v-model="newComment.name" placeholder="Your name.." required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" v-model="newComment.email" placeholder="Your email.." required>
+
+        <label for="message">Comment:</label>
+        <textarea id="message" v-model="newComment.message" placeholder="Write your comment here.." style="height:150px" required></textarea>
+
+        <input type="submit" value="Submit">
+      </form>
+
+      <div class="comments-section" v-if="comments.length">
+        <h2>Submitted Messages</h2>
+        <div class="comment" v-for="(comment, index) in comments" :key="index">
+          <h3>{{ comment.name }}</h3>
+          <p><strong>Email:</strong> {{ comment.email }}</p>
+          <p>{{ comment.message }}</p>
+          <div class="actions">
+            <button @click="editComment(index)">Edit</button>
+            <button class="delete" @click="deleteComment(index)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>&copy; 2025 GREEN,KERVIN,JERVIN. All rights reserved. <a href="privacy.html">Privacy Policy</a></p>
+    </div>
+  </div>
+
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        newComment: {
+          name: "",
+          email: "",
+          message: ""
+        },
+        comments: []
+      },
+      methods: {
+        submitContact() {
+          this.comments.push({ ...this.newComment });
+          this.newComment.name = "";
+          this.newComment.email = "";
+          this.newComment.message = "";
+        },
+        deleteComment(index) {
+          if (confirm("Are you sure you want to delete this comment?")) {
+            this.comments.splice(index, 1);
+          }
+        },
+        editComment(index) {
+          const updatedMessage = prompt(
+            "Edit your message:",
+            this.comments[index].message
+          );
+          if (updatedMessage !== null) {
+            this.comments[index].message = updatedMessage;
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

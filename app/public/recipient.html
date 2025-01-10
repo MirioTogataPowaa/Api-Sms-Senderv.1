@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipient</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Lucida Sans", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3f4f6;
+    }
+
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .topnav a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .topnav a.active {
+      background-color: #04AA6D;
+      color: white;
+    }
+
+    .header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .content {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .recipient-card {
+      background: linear-gradient(135deg, #8e44ad, #3498db);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .recipient-card h2 {
+      margin: 0 0 10px;
+    }
+
+    .recipient-card p {
+      margin: 5px 0;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #04AA6D;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      cursor: pointer;
+      text-align: center;
+      flex: 1;
+      text-align: center;
+    }
+
+    .button.delete {
+      background-color: #e74c3c;
+    }
+
+    .button:hover {
+      opacity: 0.9;
+    }
+
+    .footer {
+      background-color: #0099cc;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div class="topnav">
+    <a href="index.html">Home</a>
+    <a class="active" href="recipient.html">Recipient</a>
+    <a href="contact.html">Contact</a>
+    <a href="about.html">About</a>
+  </div>
+
+  <div class="header">
+    <h1>Recipient Management</h1>
+  </div>
+
+  <div id="app" class="content">
+    <div v-if="recipients.length === 0">
+      <p>Loading recipients...</p>
+    </div>
+    <div v-else>
+      <div v-for="recipient in recipients" :key="recipient.sid" class="recipient-card">
+        <h2>Recipient Name: {{ recipient.recipientName }}</h2>
+        <p>Sender: {{ recipient.sender }}</p>
+        <p>Message SID: {{ recipient.sid }}</p>
+        <div class="button-group">
+          <button class="button edit" @click="editMessage(recipient)">Edit</button>
+          <button class="button delete" @click="deleteMessage(recipient.sid)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>&copy; 2025 SMS API GREEN APP. All Rights Reserved.</p>
+  </div>
+
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        recipients: [],
+      },
+      methods: {
+        async fetchRecipients() {
+          try {
+            const response = await fetch("/api/list-messages");
+            const data = await response.json();
+            this.recipients = data.messages.map(msg => ({
+              sender: msg.sender,
+              recipientName: msg.body.split(': ')[1]?.split(' ')[0] || "Unknown",
+              sid: msg.sid,
+              body: msg.body,
+            }));
+          } catch (error) {
+            console.error("Error fetching recipients:", error);
+          }
+        },
+        async deleteMessage(sid) {
+          const response = await fetch(`/api/delete-message/${sid}`, { method: "DELETE" });
+          const result = await response.json();
+          if (result.success) {
+            alert("Message deleted successfully!");
+            this.fetchRecipients();
+          } else {
+            alert("Error deleting message: " + result.message);
+          }
+        },
+        async editMessage(recipient) {
+          const updatedMessage = prompt("Edit the message:", recipient.body);
+          if (updatedMessage !== null) {
+            const response = await fetch(`/api/update-message/${recipient.sid}`, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ message: updatedMessage }),
+            });
+            const result = await response.json();
+            if (result.success) {
+              alert("Message updated successfully!");
+              this.fetchRecipients();
+            } else {
+              alert("Error updating message: " + result.message);
+            }
+          }
+        },
+      },
+      created() {
+        this.fetchRecipients();
+      },
+    });
+  </script>
+</body>
+</html>
